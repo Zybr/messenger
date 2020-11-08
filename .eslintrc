@@ -15,9 +15,19 @@
     "plugin:jest/style"
   ],
   "rules": {
-    "jest/expect-expect": 0
+    "jest/expect-expect": "off",
+    "class-methods-use-this": "error"
   },
+  "overrides": [
+    {
+      "files": [ "./migrations/*.ts"
+      ],
+      "rules": {
+        "class-methods-use-this": "off"
+      }
+    }
+  ],
   "parserOptions": {
-     "project": "./tsconfig.json"
+    "project": "./tsconfig.json"
   }
 }
