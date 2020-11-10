@@ -1,4 +1,5 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import ColumnDefinitions from "./lib/ColumnDefenitions"
 
 export default class CreateMessages1604847300633 implements MigrationInterface {
     name = 'CreateMessages1604847300633'
@@ -11,6 +12,8 @@ export default class CreateMessages1604847300633 implements MigrationInterface {
                     name: 'id',
                     type: 'int',
                     isPrimary: true,
+                    isGenerated: true,
+                    generationStrategy: 'increment',
                 },
                 {
                     name: 'sender',
@@ -24,14 +27,8 @@ export default class CreateMessages1604847300633 implements MigrationInterface {
                     name: 'text',
                     type: 'text',
                 },
-                {
-                    name: 'created_at',
-                    type: 'datetime',
-                },
-                {
-                    name: 'updated_at',
-                    type: 'datetime',
-                },
+                ColumnDefinitions.createdAt(),
+                ColumnDefinitions.updatedAt(),
             ]
         }));
     }
