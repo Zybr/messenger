@@ -1,39 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { Repository } from "typeorm";
-import * as moment from "moment";
 import { DeleteResult } from "typeorm/query-builder/result/DeleteResult";
 import { getRepositoryToken } from "@nestjs/typeorm";
-import * as faker from "faker";
 import MessagesService from "./messages.service";
 import Message from "./entities/message.entity";
 import MessagesController from "./messages.controller";
-import CreateMessageDto from "./dto/create-message.dto";
-import UpdateMessageDto from "./dto/update-message.dto";
+import Factory from "./messages.mock-factory";
 
 describe("MessagesService", () => {
   let service: MessagesService;
   let repository: Repository<Message>;
-
-  const makeMessage = (): Message => ({
-    id: faker.random.number(),
-    sender: faker.random.number(),
-    recipient: faker.random.number(),
-    text: faker.lorem.words(),
-    created_at: moment(),
-    updated_at: moment(),
-  });
-
-  const makeCreateMessageDto = (): CreateMessageDto => {
-    const { sender, recipient, text } = makeMessage();
-
-    return { sender, recipient, text };
-  };
-
-  const makeUpdateMessageDto = (): UpdateMessageDto => {
-    const { text } = makeMessage();
-
-    return { text };
-  };
 
   beforeEach(async () => {
     const repositoryToken = getRepositoryToken(Message);
@@ -52,29 +28,29 @@ describe("MessagesService", () => {
     repository = module.get<Repository<Message>>(repositoryToken);
   });
 
-  it("service is defined", () => {
+  test("built", () => {
     expect(service).toBeDefined();
   });
 
-  describe("create", () => {
-    it("use repository", async () => {
-      const dto = makeCreateMessageDto();
+  describe(".create()", () => {
+    test("uses repository", async () => {
+      const dto = Factory.makeCreateMessageDto();
       const message = {
-        ...makeMessage(),
+        ...Factory.makeMessage(),
         ...dto,
       };
       const methodSpy = jest
-          .spyOn(repository, "save")
-          .mockResolvedValue(message);
+        .spyOn(repository, "save")
+        .mockResolvedValue(message);
 
       expect(await service.create(dto)).toEqual(message);
       expect(methodSpy).toHaveBeenCalledWith(dto);
     });
   });
 
-  describe("findAll", () => {
-    it("use repository", async () => {
-      const messages = [makeMessage()];
+  describe(".findAll()", () => {
+    test("uses repository", async () => {
+      const messages = [Factory.makeMessage()];
       const methodSpy = jest
         .spyOn(repository, "find")
         .mockResolvedValue(messages);
@@ -84,9 +60,9 @@ describe("MessagesService", () => {
     });
   });
 
-  describe("findOne", () => {
-    it("use repository", async () => {
-      const message = makeMessage();
+  describe(".findOne()", () => {
+    test("uses repository", async () => {
+      const message = Factory.makeMessage();
       const methodSpy = jest
         .spyOn(repository, "findOne")
         .mockResolvedValue(message);
@@ -96,7 +72,7 @@ describe("MessagesService", () => {
     });
   });
 
-  describe("update", () => {
+  describe(".update()", () => {
     let queryBuilder;
     let executeResult;
 
@@ -128,23 +104,26 @@ describe("MessagesService", () => {
       repository = module.get<Repository<Message>>(repositoryToken);
     });
 
-    it("use repository", async () => {
-      const dto = makeUpdateMessageDto();
+    test("uses repository", async () => {
+      const dto = Factory.makeUpdateMessageDto();
       const message = {
-        ...makeMessage(),
+        ...Factory.makeMessage(),
         ...dto,
       };
+      const updateMethod = jest.spyOn(queryBuilder, "update");
+      const setMethod = jest.spyOn(queryBuilder, "set");
       jest.spyOn(executeResult, "then").mockResolvedValue(message);
 
       expect(await service.update(message.id, dto)).toEqual(message);
+      expect(updateMethod).toHaveBeenCalled();
+      expect(setMethod).toHaveBeenCalledWith(dto);
     });
   });
 
+  describe(".remove()", () => {
+    const message = Factory.makeMessage();
 
-  describe("remove", () => {
-    const message = makeMessage();
-
-    it("records have been deleted", async () => {
+    test("records have been deleted", async () => {
       const methodSpy = jest
         .spyOn(repository, "delete")
         .mockResolvedValue({ affected: 1 } as DeleteResult);
@@ -153,7 +132,7 @@ describe("MessagesService", () => {
       expect(methodSpy).toHaveBeenCalledWith(message.id);
     });
 
-    it("records haven't been deleted", async () => {
+    test("records haven't been deleted", async () => {
       const methodSpy = jest
         .spyOn(repository, "delete")
         .mockResolvedValue({ affected: 0 } as DeleteResult);

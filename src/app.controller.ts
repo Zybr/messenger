@@ -1,12 +1,19 @@
 import { Controller, Get } from "@nestjs/common";
-import AppService from "./app.service";
+import * as fs from "fs";
 
 @Controller()
 export default class AppController {
-  constructor(private readonly appService: AppService) {}
+  private readonly info: Record<string, string>;
+
+  constructor() {
+    const { version } = JSON.parse(
+      fs.readFileSync("./package.json").toString()
+    );
+    this.info = { version };
+  }
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getInfo(): Record<string, string> {
+    return this.info;
   }
 }
