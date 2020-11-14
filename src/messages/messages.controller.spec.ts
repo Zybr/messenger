@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { NotFoundException } from "@nestjs/common";
+import { NotFoundException, BadRequestException } from "@nestjs/common";
 import MessagesController from "./messages.controller";
 import MessagesService from "./messages.service";
 import Factory from "./messages.mock-factory";
@@ -83,11 +83,11 @@ describe("MessagesController", () => {
 
   describe(".update()", () => {
     const model = Factory.makeMessage();
+    const dto = Factory.makeCreateMessageDto();
 
     beforeEach(jest.resetAllMocks);
 
     test("Update by service", async () => {
-      const dto = Factory.makeCreateMessageDto();
       const updateMethod = jest
         .spyOn(messageService, "update")
         .mockReturnValue(Promise.resolve(model));
@@ -100,9 +100,20 @@ describe("MessagesController", () => {
     });
 
     test("Not found", async () => {
-      await expect(controller.findOne(model.id)).rejects.toBeInstanceOf(
+      await expect(controller.update(model.id, dto)).rejects.toBeInstanceOf(
         NotFoundException
       );
+    });
+
+    describe("Negative", () => {
+      test.skip('Empty "text"', async () => {
+        await expect(
+          controller.update(
+            model.id,
+            Factory.makeUpdateMessageDto({ text: "" })
+          )
+        ).rejects.toBeInstanceOf(BadRequestException);
+      });
     });
   });
 
