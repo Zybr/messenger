@@ -7,14 +7,15 @@ import UpdateMessageDto from "./dto/update-message.dto";
 
 export default class MessagesMockFactory {
   public static makeMessage(): Message {
-    return {
-      id: faker.random.number(),
-      sender: faker.random.number(),
-      recipient: faker.random.number(),
-      text: faker.lorem.words(),
-      created_at: moment(),
-      updated_at: moment(),
-    };
+    const message = new Message();
+    message.id = faker.random.number();
+    message.sender = faker.random.number();
+    message.recipient = faker.random.number();
+    message.text = faker.lorem.words();
+    message.created_at = moment();
+    message.updated_at = moment();
+
+    return message;
   }
 
   public static makeCreateMessageDto(): CreateMessageDto {

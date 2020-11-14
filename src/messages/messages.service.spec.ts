@@ -28,12 +28,12 @@ describe("MessagesService", () => {
     repository = module.get<Repository<Message>>(repositoryToken);
   });
 
-  test("built", () => {
+  test("Built", () => {
     expect(service).toBeDefined();
   });
 
   describe(".create()", () => {
-    test("uses repository", async () => {
+    test("Uses repository", async () => {
       const dto = Factory.makeCreateMessageDto();
       const message = {
         ...Factory.makeMessage(),
@@ -49,7 +49,7 @@ describe("MessagesService", () => {
   });
 
   describe(".findAll()", () => {
-    test("uses repository", async () => {
+    test("Fetch by repository", async () => {
       const messages = [Factory.makeMessage()];
       const methodSpy = jest
         .spyOn(repository, "find")
@@ -61,7 +61,7 @@ describe("MessagesService", () => {
   });
 
   describe(".findOne()", () => {
-    test("uses repository", async () => {
+    test("Fetch by repository", async () => {
       const message = Factory.makeMessage();
       const methodSpy = jest
         .spyOn(repository, "findOne")
@@ -104,7 +104,7 @@ describe("MessagesService", () => {
       repository = module.get<Repository<Message>>(repositoryToken);
     });
 
-    test("uses repository", async () => {
+    test("Update by repository", async () => {
       const dto = Factory.makeUpdateMessageDto();
       const message = {
         ...Factory.makeMessage(),
@@ -123,7 +123,7 @@ describe("MessagesService", () => {
   describe(".remove()", () => {
     const message = Factory.makeMessage();
 
-    test("records have been deleted", async () => {
+    test("Records have been deleted", async () => {
       const methodSpy = jest
         .spyOn(repository, "delete")
         .mockResolvedValue({ affected: 1 } as DeleteResult);
@@ -132,7 +132,7 @@ describe("MessagesService", () => {
       expect(methodSpy).toHaveBeenCalledWith(message.id);
     });
 
-    test("records haven't been deleted", async () => {
+    test("Records haven't been deleted", async () => {
       const methodSpy = jest
         .spyOn(repository, "delete")
         .mockResolvedValue({ affected: 0 } as DeleteResult);

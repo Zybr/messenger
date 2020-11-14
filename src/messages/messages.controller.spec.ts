@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { NotFoundException } from "@nestjs/common";
 import MessagesController from "./messages.controller";
 import MessagesService from "./messages.service";
 import Factory from "./messages.mock-factory";
@@ -24,14 +25,16 @@ describe("MessagesController", () => {
       ],
     }).compile();
     controller = module.get<MessagesController>(MessagesController);
+
+    jest.resetAllMocks();
   });
 
-  test("built", () => {
+  test("Built", () => {
     expect(controller).toBeDefined();
   });
 
   describe(".findAll()", () => {
-    test("uses service", async () => {
+    test("Uses service", async () => {
       const models = [Factory.makeMessage()];
       const createMethod = jest
         .spyOn(messageService, "findAll")
@@ -43,19 +46,30 @@ describe("MessagesController", () => {
   });
 
   describe(".findOne()", () => {
-    test("uses service", async () => {
-      const model = Factory.makeMessage();
+    const model = Factory.makeMessage();
+
+    beforeEach(jest.resetAllMocks);
+
+    test("Fetch by service", async () => {
       const createMethod = jest
         .spyOn(messageService, "findOne")
         .mockReturnValue(Promise.resolve(model));
 
-      expect(await controller.findOne(`${model.id}`)).toEqual(model);
+      expect(await controller.findOne(model.id)).toEqual(model);
       expect(createMethod).toHaveBeenCalled();
+      createMethod.mockClear();
+      jest.clearAllMocks();
+    });
+
+    test("Not found", async () => {
+      await expect(controller.findOne(model.id)).rejects.toBeInstanceOf(
+        NotFoundException
+      );
     });
   });
 
   describe(".create()", () => {
-    test("uses service", async () => {
+    test("Uses service", async () => {
       const dto = Factory.makeCreateMessageDto();
       const model = Factory.makeMessage();
       const createMethod = jest
@@ -68,26 +82,38 @@ describe("MessagesController", () => {
   });
 
   describe(".update()", () => {
-    test("uses service", async () => {
+    const model = Factory.makeMessage();
+
+    beforeEach(jest.resetAllMocks);
+
+    test("Update by service", async () => {
       const dto = Factory.makeCreateMessageDto();
-      const model = Factory.makeMessage();
       const updateMethod = jest
         .spyOn(messageService, "update")
+        .mockReturnValue(Promise.resolve(model));
+      jest
+        .spyOn(messageService, "findOne")
         .mockReturnValue(Promise.resolve(model));
 
       expect(await controller.update(model.id, dto)).toEqual(model);
       expect(updateMethod).toHaveBeenCalled();
     });
+
+    test("Not found", async () => {
+      await expect(controller.findOne(model.id)).rejects.toBeInstanceOf(
+        NotFoundException
+      );
+    });
   });
 
   describe(".remove()", () => {
-    test("uses service", async () => {
+    test("Remove by service", async () => {
       const model = Factory.makeMessage();
       const removeMethod = jest
         .spyOn(messageService, "remove")
         .mockReturnValue(Promise.resolve(true));
 
-      expect(await controller.remove(`${model.id}`)).toBeUndefined();
+      expect(await controller.remove(model.id)).toBeUndefined();
       expect(removeMethod).toHaveBeenCalled();
     });
   });

@@ -9,11 +9,12 @@ import Message from "../src/messages/entities/message.entity";
 
 describe("Messages", () => {
   let app: INestApplication;
+  const message = new Message();
   const messageService = {
-    create: () => "created-model",
-    findAll: () => ["fetched-model-1", "fetched-model-2"],
-    findOne: () => "fetched-model",
-    update: () => "updated-model",
+    create: () => message,
+    findAll: () => [message, message],
+    findOne: () => message,
+    update: () => message,
     remove: () => ({}),
   };
   const repositoryToken = getRepositoryToken(Message);
@@ -36,31 +37,31 @@ describe("Messages", () => {
     request(app.getHttpServer())
       .get("/messages")
       .expect(HttpStatus.OK)
-      .expect(messageService.findAll()));
+      .expect(JSON.stringify(messageService.findAll())));
 
   it(`/messages/:id   [GET]`, () =>
     request(app.getHttpServer())
       .get("/messages/1")
       .expect(HttpStatus.OK)
-      .expect(messageService.findOne()));
+      .expect(JSON.stringify(messageService.findOne())));
 
   it(`/messages   [POST]`, () =>
     request(app.getHttpServer())
       .post("/messages")
       .expect(HttpStatus.CREATED)
-      .expect(messageService.create()));
+      .expect(JSON.stringify(messageService.create())));
 
   it(`/messages/:id   [PUT]`, () =>
     request(app.getHttpServer())
       .put("/messages/1")
       .expect(HttpStatus.OK)
-      .expect(messageService.update()));
+      .expect(JSON.stringify(messageService.update())));
 
   it(`/messages/:id   [DELETE]`, () =>
     request(app.getHttpServer())
       .put("/messages/1")
       .expect(HttpStatus.OK)
-      .expect(messageService.remove()));
+      .expect(JSON.stringify(messageService.remove())));
 
   afterAll(async () => {
     await app.close();
