@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsInt, Min } from "class-validator";
+import { IsNotEmpty, IsInt, IsString, Min } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export default class CreateMessageDto {
@@ -20,6 +20,7 @@ export default class CreateMessageDto {
   })
   recipient: number;
 
+  @IsString()
   @IsNotEmpty()
   @ApiProperty({
     description: "Message content",
