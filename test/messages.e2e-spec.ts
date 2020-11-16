@@ -4,7 +4,7 @@ import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import MessagesModule from "../src/messages/messages.module";
-import MessagesService from "../src/messages/messages.service";
+import MessagesService from "../src/messages/services/messages.service";
 import Message from "../src/messages/entities/message.entity";
 
 describe("Messages", () => {

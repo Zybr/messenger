@@ -10,5 +10,5 @@ export default class UpdateMessageDto extends PartialType(CreateMessageDto) {
     description: "Message content",
     example: "Hello",
   })
-  text: string;
+  public text: string;
 }

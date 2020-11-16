@@ -1,8 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { NotFoundException, BadRequestException } from "@nestjs/common";
+import { NotFoundException } from "@nestjs/common";
 import MessagesController from "./messages.controller";
-import MessagesService from "./messages.service";
-import Factory from "./messages.mock-factory";
+import MessagesService from "../../services/messages.service";
+import Factory from "../../services/messages.mock-factory";
 
 describe("MessagesController", () => {
   let controller: MessagesController;
@@ -103,17 +103,6 @@ describe("MessagesController", () => {
       await expect(controller.update(model.id, dto)).rejects.toBeInstanceOf(
         NotFoundException
       );
-    });
-
-    describe("Negative", () => {
-      test.skip('Empty "text"', async () => {
-        await expect(
-          controller.update(
-            model.id,
-            Factory.makeUpdateMessageDto({ text: "" })
-          )
-        ).rejects.toBeInstanceOf(BadRequestException);
-      });
     });
   });
 

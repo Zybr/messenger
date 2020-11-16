@@ -9,7 +9,7 @@ export default class CreateMessageDto {
     description: "User sender ID",
     example: 1,
   })
-  sender: number;
+  public sender: number;
 
   @IsInt()
   @IsNotEmpty()
@@ -18,7 +18,7 @@ export default class CreateMessageDto {
     description: "User recipient ID",
     example: 2,
   })
-  recipient: number;
+  public recipient: number;
 
   @IsString()
   @IsNotEmpty()
@@ -26,5 +26,5 @@ export default class CreateMessageDto {
     description: "Message content",
     example: "Hello",
   })
-  text: string;
+  public text: string;
 }

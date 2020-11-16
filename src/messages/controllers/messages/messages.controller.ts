@@ -9,12 +9,12 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
-import NotFoundApiResponse from "../decorators/api/not-found.api-response.decorator";
-import BadRequestApiResponse from "../decorators/api/bad-request.api-response.decorator";
-import MessagesService from "./messages.service";
-import CreateMessageDto from "./dto/create-message.dto";
-import UpdateMessageDto from "./dto/update-message.dto";
-import Message from "./entities/message.entity";
+import NotFoundApiResponse from "../../../decorators/api/not-found.api-response.decorator";
+import BadRequestApiResponse from "../../../decorators/api/bad-request.api-response.decorator";
+import MessagesService from "../../services/messages.service";
+import CreateMessageDto from "../../dtos/create-message.dto";
+import UpdateMessageDto from "../../dtos/update-message.dto";
+import Message from "../../entities/message.entity";
 
 @Controller("messages")
 export default class MessagesController {
@@ -25,7 +25,7 @@ export default class MessagesController {
     summary: "Create message.",
   })
   @BadRequestApiResponse()
-  create(@Body() createMessageDto: CreateMessageDto): Promise<Message> {
+  public create(@Body() createMessageDto: CreateMessageDto): Promise<Message> {
     return this.messagesService.create(createMessageDto);
   }
 
@@ -33,7 +33,7 @@ export default class MessagesController {
   @ApiOperation({
     summary: "Get messages.",
   })
-  findAll(): Promise<Message[]> {
+  public findAll(): Promise<Message[]> {
     return this.messagesService.findAll();
   }
 
@@ -42,7 +42,7 @@ export default class MessagesController {
     summary: "Get message.",
   })
   @NotFoundApiResponse()
-  async findOne(@Param("id") id: number): Promise<Message> {
+  public async findOne(@Param("id") id: number): Promise<Message> {
     const message = await this.messagesService.findOne(id);
 
     if (!(message instanceof Message)) {
@@ -58,7 +58,7 @@ export default class MessagesController {
   })
   @NotFoundApiResponse()
   @BadRequestApiResponse()
-  async update(
+  public async update(
     @Param("id") id: number,
     @Body() updateMessageDto: UpdateMessageDto
   ): Promise<Message> {
@@ -75,7 +75,7 @@ export default class MessagesController {
   @ApiOperation({
     summary: "Remove message.",
   })
-  remove(@Param("id") id: number): void {
+  public remove(@Param("id") id: number): void {
     (async () => {
       await this.messagesService.remove(id);
     })();

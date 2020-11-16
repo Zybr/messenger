@@ -3,9 +3,10 @@ import { Repository } from "typeorm";
 import { DeleteResult } from "typeorm/query-builder/result/DeleteResult";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import MessagesService from "./messages.service";
-import Message from "./entities/message.entity";
-import MessagesController from "./messages.controller";
+import Message from "../entities/message.entity";
+import MessagesController from "../controllers/messages/messages.controller";
 import Factory from "./messages.mock-factory";
+import MessagesFilter from "./messages.filter";
 
 describe("MessagesService", () => {
   let service: MessagesService;
@@ -17,6 +18,7 @@ describe("MessagesService", () => {
       controllers: [MessagesController],
       providers: [
         MessagesService,
+        MessagesFilter,
         {
           provide: repositoryToken,
           useClass: Repository,
@@ -91,6 +93,7 @@ describe("MessagesService", () => {
         controllers: [MessagesController],
         providers: [
           MessagesService,
+          MessagesFilter,
           {
             provide: repositoryToken,
             useFactory: () => ({
@@ -140,5 +143,9 @@ describe("MessagesService", () => {
       expect(await service.remove(message.id)).toEqual(false);
       expect(methodSpy).toHaveBeenCalledWith(message.id);
     });
+  });
+
+  test(".getFilter", () => {
+    expect(service.getFilter()).toBeInstanceOf(MessagesFilter);
   });
 });

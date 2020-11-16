@@ -11,28 +11,30 @@ import UpdateDateColumn from "../../decorators/properties/update-date-column.dec
 @Entity("messages")
 export default class Message {
   @PrimaryGeneratedColumn()
-  id: number;
+  public readonly id: number;
 
   @Column("int")
-  sender: number;
+  public sender: number;
 
   @Column("int")
-  recipient: number;
+  public recipient: number;
 
   @Column("text")
-  text: string;
+  public text: string;
 
   @ApiProperty({
     type: "string",
     format: "date-time",
+    readOnly: true,
   })
   @CreateDateColumn()
-  created_at: moment.Moment;
+  public readonly created_at: moment.Moment;
 
   @ApiProperty({
     type: "string",
     format: "date-time",
+    readOnly: true,
   })
   @UpdateDateColumn()
-  updated_at: moment.Moment;
+  public readonly updated_at: moment.Moment;
 }
