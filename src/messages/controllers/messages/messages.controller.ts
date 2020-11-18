@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   NotFoundException,
+  ParseIntPipe,
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import NotFoundApiResponse from "../../../decorators/api/not-found.api-response.decorator";
@@ -42,7 +43,9 @@ export default class MessagesController {
     summary: "Get message.",
   })
   @NotFoundApiResponse()
-  public async findOne(@Param("id") id: number): Promise<Message> {
+  public async findOne(
+    @Param("id", new ParseIntPipe()) id: number
+  ): Promise<Message> {
     const message = await this.messagesService.findOne(id);
 
     if (!(message instanceof Message)) {
@@ -59,7 +62,7 @@ export default class MessagesController {
   @NotFoundApiResponse()
   @BadRequestApiResponse()
   public async update(
-    @Param("id") id: number,
+    @Param("id", new ParseIntPipe()) id: number,
     @Body() updateMessageDto: UpdateMessageDto
   ): Promise<Message> {
     const message = await this.messagesService.findOne(id);
@@ -75,7 +78,7 @@ export default class MessagesController {
   @ApiOperation({
     summary: "Remove message.",
   })
-  public remove(@Param("id") id: number): void {
+  public remove(@Param("id", new ParseIntPipe()) id: number): void {
     (async () => {
       await this.messagesService.remove(id);
     })();

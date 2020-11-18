@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from "@nestjs/common";
+import { Controller, Get, Query, Param, ParseIntPipe } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
 import GetMessagesDto from "../../dtos/get-messages.dto";
 import Message from "../../entities/message.entity";
@@ -20,15 +20,15 @@ export default class UsersController {
       },
     ],
   })
-  public getMessages(
-    @Query("id") user: number,
+  public findAll(
+    @Param("id", new ParseIntPipe()) id: number,
     @Query() filter: GetMessagesDto
   ): Promise<Message[]> {
     return this.messagesService
       .getFilter()
-      .setRecipient(user)
-      .setPagination(filter.pagination)
-      .setSort(filter.sort)
+      .setRecipient(id)
+      .setPagination(filter.pagination || {})
+      .setSort(filter.sort || { attribute: "id" })
       .findAll();
   }
 }

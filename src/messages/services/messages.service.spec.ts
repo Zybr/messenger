@@ -41,36 +41,36 @@ describe("MessagesService", () => {
         ...Factory.makeMessage(),
         ...dto,
       };
-      const methodSpy = jest
+      const saveMethod = jest
         .spyOn(repository, "save")
         .mockResolvedValue(message);
 
       expect(await service.create(dto)).toEqual(message);
-      expect(methodSpy).toHaveBeenCalledWith(dto);
+      expect(saveMethod).toHaveBeenCalledWith(dto);
     });
   });
 
   describe(".findAll()", () => {
     test("Fetch by repository", async () => {
       const messages = [Factory.makeMessage()];
-      const methodSpy = jest
+      const findAllMethod = jest
         .spyOn(repository, "find")
         .mockResolvedValue(messages);
 
       expect(await service.findAll()).toEqual(messages);
-      expect(methodSpy).toHaveBeenCalled();
+      expect(findAllMethod).toHaveBeenCalled();
     });
   });
 
   describe(".findOne()", () => {
     test("Fetch by repository", async () => {
       const message = Factory.makeMessage();
-      const methodSpy = jest
+      const findOneMethod = jest
         .spyOn(repository, "findOne")
         .mockResolvedValue(message);
 
       expect(await service.findOne(message.id)).toEqual(message);
-      expect(methodSpy).toHaveBeenCalledWith(message.id);
+      expect(findOneMethod).toHaveBeenCalledWith(message.id);
     });
   });
 
@@ -127,21 +127,21 @@ describe("MessagesService", () => {
     const message = Factory.makeMessage();
 
     test("Records have been deleted", async () => {
-      const methodSpy = jest
+      const deleteMethod = jest
         .spyOn(repository, "delete")
         .mockResolvedValue({ affected: 1 } as DeleteResult);
 
       expect(await service.remove(message.id)).toEqual(true);
-      expect(methodSpy).toHaveBeenCalledWith(message.id);
+      expect(deleteMethod).toHaveBeenCalledWith(message.id);
     });
 
     test("Records haven't been deleted", async () => {
-      const methodSpy = jest
+      const deleteMethod = jest
         .spyOn(repository, "delete")
         .mockResolvedValue({ affected: 0 } as DeleteResult);
 
       expect(await service.remove(message.id)).toEqual(false);
-      expect(methodSpy).toHaveBeenCalledWith(message.id);
+      expect(deleteMethod).toHaveBeenCalledWith(message.id);
     });
   });
 

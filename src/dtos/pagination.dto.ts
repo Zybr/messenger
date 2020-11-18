@@ -1,8 +1,8 @@
-import { IsString, IsOptional } from "class-validator";
+import { IsInt, IsOptional } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export default class PaginationDto {
-  @IsString()
+  @IsInt()
   @IsOptional()
   @ApiProperty({
     example: 10,
