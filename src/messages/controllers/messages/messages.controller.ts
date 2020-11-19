@@ -44,15 +44,15 @@ export default class MessagesController {
   })
   @NotFoundApiResponse()
   public async findOne(
-    @Param("id", new ParseIntPipe()) id: number
+    @Param("id", ParseIntPipe) id: number
   ): Promise<Message> {
-    const message = await this.messagesService.findOne(id);
-
-    if (!(message instanceof Message)) {
-      throw new NotFoundException("Message was not found.");
-    }
-
-    return message;
+    return this.messagesService
+      .findOne(id)
+      .then((message) =>
+        !(message instanceof Message)
+          ? Promise.reject(new NotFoundException("Message was not found."))
+          : message
+      );
   }
 
   @Put(":id")
@@ -62,23 +62,24 @@ export default class MessagesController {
   @NotFoundApiResponse()
   @BadRequestApiResponse()
   public async update(
-    @Param("id", new ParseIntPipe()) id: number,
+    @Param("id", ParseIntPipe) id: number,
     @Body() updateMessageDto: UpdateMessageDto
   ): Promise<Message> {
-    const message = await this.messagesService.findOne(id);
-
-    if (!(message instanceof Message)) {
-      throw new NotFoundException("Message was not found.");
-    }
-
-    return this.messagesService.update(id, updateMessageDto);
+    return this.messagesService
+      .findOne(id)
+      .then((message) =>
+        !(message instanceof Message)
+          ? Promise.reject(new NotFoundException("Message was not found."))
+          : message
+      )
+      .then(() => this.messagesService.update(id, updateMessageDto));
   }
 
   @Delete(":id")
   @ApiOperation({
     summary: "Remove message.",
   })
-  public remove(@Param("id", new ParseIntPipe()) id: number): void {
+  public remove(@Param("id", ParseIntPipe) id: number): void {
     (async () => {
       await this.messagesService.remove(id);
     })();

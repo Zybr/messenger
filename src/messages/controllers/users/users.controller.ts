@@ -21,7 +21,7 @@ export default class UsersController {
     ],
   })
   public findAll(
-    @Param("id", new ParseIntPipe()) id: number,
+    @Param("id", ParseIntPipe) id: number,
     @Query() filter: GetMessagesDto
   ): Promise<Message[]> {
     return this.messagesService

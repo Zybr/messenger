@@ -17,11 +17,11 @@ describe("Messages", () => {
   };
 
   const messageService = {
-    create: () => message,
-    findAll: () => [message, message],
-    findOne: () => message,
-    update: () => message,
-    remove: () => ({}),
+    create: () => Promise.resolve(message),
+    findAll: () => Promise.resolve([message, message]),
+    findOne: () => Promise.resolve(message),
+    update: () => Promise.resolve(message),
+    remove: () => Promise.resolve({}),
   };
   const repositoryToken = getRepositoryToken(Message);
 
@@ -40,25 +40,25 @@ describe("Messages", () => {
     await app.init();
   });
 
-  it(`/messages   [GET]`, () =>
+  it(`/messages   [GET]`, async () =>
     request(app.getHttpServer())
       .get("/messages")
       .expect(HttpStatus.OK)
-      .expect(JSON.stringify(messageService.findAll())));
+      .expect(JSON.stringify(await messageService.findAll())));
 
-  it(`/messages/:id   [GET]`, () =>
+  it(`/messages/:id   [GET]`, async () =>
     request(app.getHttpServer())
       .get("/messages/1")
       .expect(HttpStatus.OK)
-      .expect(JSON.stringify(messageService.findOne())));
+      .expect(JSON.stringify(await messageService.findOne())));
 
   describe(`/messages   [POST]`, () => {
-    it(`Success`, () =>
+    it(`Success`, async () =>
       request(app.getHttpServer())
         .post("/messages")
         .send(createDto)
         .expect(HttpStatus.CREATED)
-        .expect(JSON.stringify(messageService.create())));
+        .expect(JSON.stringify(await messageService.create())));
 
     describe("Bad request", () => {
       [
@@ -104,12 +104,12 @@ describe("Messages", () => {
   });
 
   describe(`/messages/:id   [PUT]`, () => {
-    it(`Success`, () =>
+    it(`Success`, async () =>
       request(app.getHttpServer())
         .put("/messages/1")
         .send({})
         .expect(HttpStatus.OK)
-        .expect(JSON.stringify(messageService.update())));
+        .expect(JSON.stringify(await messageService.update())));
 
     describe("Bad request", () => {
       [
@@ -138,11 +138,11 @@ describe("Messages", () => {
     });
   });
 
-  it(`/messages/:id   [DELETE]`, () =>
+  it(`/messages/:id   [DELETE]`, async () =>
     request(app.getHttpServer())
       .put("/messages/1")
       .expect(HttpStatus.OK)
-      .expect(JSON.stringify(messageService.remove())));
+      .expect(JSON.stringify(await messageService.remove())));
 
   afterAll(async () => {
     await app.close();
