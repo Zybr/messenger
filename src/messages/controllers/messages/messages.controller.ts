@@ -21,6 +21,7 @@ import Message from "../../entities/message.entity";
 export default class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
+  /** Create */
   @Post()
   @ApiOperation({
     summary: "Create message.",
@@ -30,6 +31,7 @@ export default class MessagesController {
     return this.messagesService.create(createMessageDto);
   }
 
+  /** Get list */
   @Get()
   @ApiOperation({
     summary: "Get messages.",
@@ -38,23 +40,25 @@ export default class MessagesController {
     return this.messagesService.findAll();
   }
 
+  /** Get one */
   @Get(":id")
   @ApiOperation({
     summary: "Get message.",
   })
   @NotFoundApiResponse()
   public async findOne(
-    @Param("id", new ParseIntPipe()) id: number
+    @Param("id", ParseIntPipe) id: number
   ): Promise<Message> {
-    const message = await this.messagesService.findOne(id);
-
-    if (!(message instanceof Message)) {
-      throw new NotFoundException("Message was not found.");
-    }
-
-    return message;
+    return this.messagesService
+      .findOne(id)
+      .then((message) =>
+        !(message instanceof Message)
+          ? Promise.reject(new NotFoundException("Message was not found."))
+          : message
+      );
   }
 
+  /** Update */
   @Put(":id")
   @ApiOperation({
     summary: "Update message.",
@@ -62,23 +66,25 @@ export default class MessagesController {
   @NotFoundApiResponse()
   @BadRequestApiResponse()
   public async update(
-    @Param("id", new ParseIntPipe()) id: number,
+    @Param("id", ParseIntPipe) id: number,
     @Body() updateMessageDto: UpdateMessageDto
   ): Promise<Message> {
-    const message = await this.messagesService.findOne(id);
-
-    if (!(message instanceof Message)) {
-      throw new NotFoundException("Message was not found.");
-    }
-
-    return this.messagesService.update(id, updateMessageDto);
+    return this.messagesService
+      .findOne(id)
+      .then((message) =>
+        !(message instanceof Message)
+          ? Promise.reject(new NotFoundException("Message was not found."))
+          : message
+      )
+      .then(() => this.messagesService.update(id, updateMessageDto));
   }
 
+  /** Remove */
   @Delete(":id")
   @ApiOperation({
     summary: "Remove message.",
   })
-  public remove(@Param("id", new ParseIntPipe()) id: number): void {
+  public remove(@Param("id", ParseIntPipe) id: number): void {
     (async () => {
       await this.messagesService.remove(id);
     })();

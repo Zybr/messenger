@@ -13,12 +13,15 @@ export default class Message {
   @PrimaryGeneratedColumn()
   public readonly id: number;
 
+  /** Author of message */
   @Column("int")
   public sender: number;
 
+  /** Recipient */
   @Column("int")
   public recipient: number;
 
+  /** Content of message */
   @Column("text")
   public text: string;
 

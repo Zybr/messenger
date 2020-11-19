@@ -5,12 +5,17 @@ import Message from "../entities/message.entity";
 import SortDto from "../../dtos/sort.dto";
 import PaginationDto from "../../dtos/pagination.dto";
 
+/** Filter of messages list */
 @Injectable()
 export default class MessagesFilter {
+
+  /** Message recipient */
   private recipient?: number;
 
+  /** Sort options */
   private sort?: SortDto;
 
+  /** Pagination options */
   private pagination?: PaginationDto;
 
   constructor(
@@ -35,6 +40,7 @@ export default class MessagesFilter {
     return this;
   }
 
+  /** Fetch messages according to the set parameters */
   public findAll(): Promise<Message[]> {
     const builder = this.repository
       .createQueryBuilder("messages")
@@ -61,6 +67,7 @@ export default class MessagesFilter {
     return result;
   }
 
+  /** Reset all set parameters */
   private clear(): MessagesFilter {
     this.sort = null;
     this.pagination = null;

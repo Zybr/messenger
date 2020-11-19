@@ -8,6 +8,7 @@ import MessagesService from "../../services/messages.service";
 export default class UsersController {
   constructor(private readonly messagesService: MessagesService) {}
 
+  /** Get user messages */
   @Get(":id/messages")
   @ApiOperation({
     summary: "Get user messages.",
@@ -21,7 +22,7 @@ export default class UsersController {
     ],
   })
   public findAll(
-    @Param("id", new ParseIntPipe()) id: number,
+    @Param("id", ParseIntPipe) id: number,
     @Query() filter: GetMessagesDto
   ): Promise<Message[]> {
     return this.messagesService

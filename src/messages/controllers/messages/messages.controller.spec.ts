@@ -62,6 +62,9 @@ describe("MessagesController", () => {
     });
 
     test("Not found", async () => {
+      jest
+        .spyOn(messageService, "findOne")
+        .mockReturnValue(Promise.resolve(undefined));
       await expect(controller.findOne(model.id)).rejects.toBeInstanceOf(
         NotFoundException
       );
@@ -100,6 +103,9 @@ describe("MessagesController", () => {
     });
 
     test("Not found", async () => {
+      jest
+        .spyOn(messageService, "findOne")
+        .mockReturnValue(Promise.resolve(undefined));
       await expect(controller.update(model.id, dto)).rejects.toBeInstanceOf(
         NotFoundException
       );

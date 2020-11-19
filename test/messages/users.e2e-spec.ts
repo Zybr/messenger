@@ -49,15 +49,6 @@ describe("Messages. Users.", () => {
       [
         // TODO: Create pipe 'trim'
         {
-          title: "sort->attribute: NULL",
-          responseBody: /attribute/,
-          params: {
-            sort: {
-              attribute: null,
-            },
-          },
-        },
-        {
           title: "sort->attribute: [ ]",
           responseBody: /attribute/,
           params: {
@@ -72,6 +63,24 @@ describe("Messages. Users.", () => {
           params: {
             sort: {
               attribute: { key: "value" },
+            },
+          },
+        },
+        {
+          title: "sort->attribute: NULL",
+          responseBody: /attribute/,
+          params: {
+            sort: {
+              attribute: null,
+            },
+          },
+        },
+        {
+          title: "sort->attribute: ''",
+          responseBody: /attribute/,
+          params: {
+            sort: {
+              attribute: "",
             },
           },
         },
@@ -92,6 +101,33 @@ describe("Messages. Users.", () => {
             sort: {
               attribute: "created_at",
               order: { key: "value" },
+            },
+          },
+        },
+        {
+          title: "pagination->size: { }",
+          responseBody: /size/,
+          params: {
+            pagination: {
+              size: { key: "value" },
+            },
+          },
+        },
+        {
+          title: "pagination->size: [ ]",
+          responseBody: /size/,
+          params: {
+            pagination: {
+              size: [1, 2, 3],
+            },
+          },
+        },
+        {
+          title: "pagination->size: String",
+          responseBody: /size/,
+          params: {
+            pagination: {
+              size: "String",
             },
           },
         },
