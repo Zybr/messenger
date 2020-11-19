@@ -2,7 +2,6 @@ import { IsNotEmpty, IsString, IsOptional, IsIn } from "class-validator";
 
 /** List sort options */
 export default class SortDto {
-
   /** Field of sorting */
   @IsString()
   @IsNotEmpty()

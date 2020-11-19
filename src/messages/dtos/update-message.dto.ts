@@ -5,7 +5,6 @@ import CreateMessageDto from "./create-message.dto";
 
 /** Parameters of message updating */
 export default class UpdateMessageDto extends PartialType(CreateMessageDto) {
-
   /** Content of message */
   @IsString()
   @IsNotEmpty()

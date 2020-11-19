@@ -3,7 +3,6 @@ import { ApiProperty } from "@nestjs/swagger";
 
 /** Pagination options */
 export default class PaginationDto {
-
   /** Page size */
   @IsInt()
   @IsOptional()

@@ -6,7 +6,6 @@ import PaginationDto from "../../dtos/pagination.dto";
 
 /** Filter options of messages list */
 export default class GetMessagesDto {
-
   /** Sorting options */
   @Type(() => SortDto)
   @ValidateNested({ each: true })

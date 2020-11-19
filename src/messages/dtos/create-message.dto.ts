@@ -3,7 +3,6 @@ import { ApiProperty } from "@nestjs/swagger";
 
 /** Parameters of message creation */
 export default class CreateMessageDto {
-
   /** ID of user who send message */
   @IsInt()
   @IsNotEmpty()

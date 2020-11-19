@@ -8,7 +8,6 @@ import PaginationDto from "../../dtos/pagination.dto";
 /** Filter of messages list */
 @Injectable()
 export default class MessagesFilter {
-
   /** Message recipient */
   private recipient?: number;
 
