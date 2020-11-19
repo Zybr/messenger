@@ -6,6 +6,7 @@ import AppModule from "./app.module";
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Set up API documentation
   const options = new DocumentBuilder()
     .setTitle("API Documentation")
     .setDescription("Message management")
@@ -14,7 +15,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup("api", app, document);
 
+  // Enable validation of incoming data
   app.useGlobalPipes(new ValidationPipe());
+
+  // Run
   await app.listen(3000);
 }
 bootstrap();

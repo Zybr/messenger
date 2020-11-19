@@ -13,6 +13,7 @@ export default class AppController {
     this.info = { version };
   }
 
+  /** Get summary info about the service. Check that API is available. */
   @Get()
   @ApiOperation({
     summary: "Get API info.",

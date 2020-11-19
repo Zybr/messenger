@@ -21,6 +21,7 @@ import Message from "../../entities/message.entity";
 export default class MessagesController {
   constructor(private readonly messagesService: MessagesService) {}
 
+  /** Create */
   @Post()
   @ApiOperation({
     summary: "Create message.",
@@ -30,6 +31,7 @@ export default class MessagesController {
     return this.messagesService.create(createMessageDto);
   }
 
+  /** Get list */
   @Get()
   @ApiOperation({
     summary: "Get messages.",
@@ -38,6 +40,7 @@ export default class MessagesController {
     return this.messagesService.findAll();
   }
 
+  /** Get one */
   @Get(":id")
   @ApiOperation({
     summary: "Get message.",
@@ -55,6 +58,7 @@ export default class MessagesController {
       );
   }
 
+  /** Update */
   @Put(":id")
   @ApiOperation({
     summary: "Update message.",
@@ -75,6 +79,7 @@ export default class MessagesController {
       .then(() => this.messagesService.update(id, updateMessageDto));
   }
 
+  /** Remove */
   @Delete(":id")
   @ApiOperation({
     summary: "Remove message.",

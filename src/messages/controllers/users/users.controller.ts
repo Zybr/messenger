@@ -8,6 +8,7 @@ import MessagesService from "../../services/messages.service";
 export default class UsersController {
   constructor(private readonly messagesService: MessagesService) {}
 
+  /** Get user messages */
   @Get(":id/messages")
   @ApiOperation({
     summary: "Get user messages.",

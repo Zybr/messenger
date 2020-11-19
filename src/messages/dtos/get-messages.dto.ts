@@ -4,7 +4,10 @@ import { ApiProperty } from "@nestjs/swagger";
 import SortDto from "../../dtos/sort.dto";
 import PaginationDto from "../../dtos/pagination.dto";
 
+/** Filter options of messages list */
 export default class GetMessagesDto {
+
+  /** Sorting options */
   @Type(() => SortDto)
   @ValidateNested({ each: true })
   @IsOptional()
@@ -19,6 +22,7 @@ export default class GetMessagesDto {
   })
   public sort?: SortDto;
 
+  /** Pagination options */
   @Type(() => PaginationDto)
   @ValidateNested({ each: true })
   @IsOptional()
