@@ -1,5 +1,4 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { NotFoundException } from "@nestjs/common";
 import MessagesController from "./messages.controller";
 import MessagesService from "../../services/messages.service";
 import Factory from "../../services/messages.mock-factory";
@@ -34,7 +33,7 @@ describe("MessagesController", () => {
   });
 
   describe(".findAll()", () => {
-    test("Uses service", async () => {
+    test("Fetch by service", async () => {
       const models = [Factory.makeMessage()];
       const createMethod = jest
         .spyOn(messageService, "findAll")
@@ -51,23 +50,7 @@ describe("MessagesController", () => {
     beforeEach(jest.resetAllMocks);
 
     test("Fetch by service", async () => {
-      const createMethod = jest
-        .spyOn(messageService, "findOne")
-        .mockReturnValue(Promise.resolve(model));
-
-      expect(await controller.findOne(model.id)).toEqual(model);
-      expect(createMethod).toHaveBeenCalled();
-      createMethod.mockClear();
-      jest.clearAllMocks();
-    });
-
-    test("Not found", async () => {
-      jest
-        .spyOn(messageService, "findOne")
-        .mockReturnValue(Promise.resolve(undefined));
-      await expect(controller.findOne(model.id)).rejects.toBeInstanceOf(
-        NotFoundException
-      );
+      expect(await controller.findOne(Promise.resolve(model))).toEqual(model);
     });
   });
 
@@ -98,17 +81,10 @@ describe("MessagesController", () => {
         .spyOn(messageService, "findOne")
         .mockReturnValue(Promise.resolve(model));
 
-      expect(await controller.update(model.id, dto)).toEqual(model);
-      expect(updateMethod).toHaveBeenCalled();
-    });
-
-    test("Not found", async () => {
-      jest
-        .spyOn(messageService, "findOne")
-        .mockReturnValue(Promise.resolve(undefined));
-      await expect(controller.update(model.id, dto)).rejects.toBeInstanceOf(
-        NotFoundException
+      expect(await controller.update(Promise.resolve(model), dto)).toEqual(
+        model
       );
+      expect(updateMethod).toHaveBeenCalled();
     });
   });
 

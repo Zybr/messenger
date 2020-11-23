@@ -25,6 +25,24 @@ describe("Messages", () => {
   };
   const repositoryToken = getRepositoryToken(Message);
 
+  beforeEach(() => {
+    jest.resetAllMocks();
+
+    jest
+      .spyOn(messageService, "create")
+      .mockReturnValue(Promise.resolve(message));
+    jest
+      .spyOn(messageService, "findAll")
+      .mockReturnValue(Promise.resolve([message, message]));
+    jest
+      .spyOn(messageService, "findOne")
+      .mockReturnValue(Promise.resolve(message));
+    jest
+      .spyOn(messageService, "update")
+      .mockReturnValue(Promise.resolve(message));
+    jest.spyOn(messageService, "remove").mockReturnValue(Promise.resolve({}));
+  });
+
   beforeAll(async () => {
     const module = await Test.createTestingModule({
       imports: [MessagesModule],
@@ -46,11 +64,24 @@ describe("Messages", () => {
       .expect(HttpStatus.OK)
       .expect(JSON.stringify(await messageService.findAll())));
 
-  it(`/messages/:id   [GET]`, async () =>
-    request(app.getHttpServer())
-      .get("/messages/1")
-      .expect(HttpStatus.OK)
-      .expect(JSON.stringify(await messageService.findOne())));
+  describe("/messages/:id   [GET]", () => {
+    it(`Success`, async () =>
+      request(app.getHttpServer())
+        .get("/messages/1")
+        .expect(HttpStatus.OK)
+        .expect(JSON.stringify(await messageService.findOne())));
+
+    it(`Not found`, async () => {
+      jest
+        .spyOn(messageService, "findOne")
+        .mockReturnValue(Promise.resolve(null));
+
+      await request(app.getHttpServer())
+        .get("/messages/1")
+        .expect(HttpStatus.NOT_FOUND)
+        .expect(/not found/);
+    });
+  });
 
   describe(`/messages   [POST]`, () => {
     it(`Success`, async () =>
@@ -110,6 +141,17 @@ describe("Messages", () => {
         .send({})
         .expect(HttpStatus.OK)
         .expect(JSON.stringify(await messageService.update())));
+
+    it(`Not found`, async () => {
+      jest
+        .spyOn(messageService, "findOne")
+        .mockReturnValue(Promise.resolve(null));
+
+      await request(app.getHttpServer())
+        .put("/messages/1")
+        .expect(HttpStatus.NOT_FOUND)
+        .expect(/not found/);
+    });
 
     describe("Bad request", () => {
       [
