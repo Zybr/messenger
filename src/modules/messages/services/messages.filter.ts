@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import Message from "../entities/message.entity";
-import SortDto from "../../dtos/sort.dto";
-import PaginationDto from "../../dtos/pagination.dto";
+import SortDto from "../../../dtos/sort.dto";
+import PaginationDto from "../../../dtos/pagination.dto";
 
 /** Filter of messages list */
 @Injectable()

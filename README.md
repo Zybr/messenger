@@ -1,30 +1,39 @@
 ## Installation
 
+Install packages.
 ```bash
-$ npm install
+npm install
+```
+
+### Prepare DataBase
+Create MySQL DB `messenger`. See `ormconfig.json` for details.
+
+Execute migrations.
+```bash
+npm run migration:run
 ```
 
 ## Running the app
 
 ```bash
 # run application (watch mode)
-$ npm run start:dev
+npm run start:dev
 ```
 
 ## Documentation
-After app start API documentation will be available at http://localhost:3000/api
+After app start API documentation will be available at http://localhost:3000/api.
 
 ## Tests
 
 ```bash
 # unit tests (watch mode)
-$ npm run test:watch
+npm run test:watch
 
 # run e2e tests (watch mode)
-$ npm run test:e2e:watch
+npm run test:e2e:watch
 
 # test coverage
-$ npm run test:cov
+npm run test:cov
 ```
 
 ## Code style

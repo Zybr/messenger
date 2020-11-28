@@ -5,9 +5,10 @@ import UsersController from "./controllers/users/users.controller";
 import MessagesService from "./services/messages.service";
 import MessagesController from "./controllers/messages/messages.controller";
 import Message from "./entities/message.entity";
+import MessageSubscriber from "./events/subscribers/message.subscriber";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Message])],
+  imports: [TypeOrmModule.forFeature([Message]), MessageSubscriber],
   controllers: [MessagesController, UsersController],
   providers: [MessagesService, MessagesFilter],
 })

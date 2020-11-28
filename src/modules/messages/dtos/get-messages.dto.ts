@@ -1,8 +1,8 @@
 import { IsOptional, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
-import SortDto from "../../dtos/sort.dto";
-import PaginationDto from "../../dtos/pagination.dto";
+import SortDto from "../../../dtos/sort.dto";
+import PaginationDto from "../../../dtos/pagination.dto";
 
 /** Filter options of messages list */
 export default class GetMessagesDto {
