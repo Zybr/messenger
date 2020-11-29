@@ -44,7 +44,15 @@ describe("Messages. Users.", () => {
     it("Success", async () =>
       request(app.getHttpServer())
         .get("/users/1/messages")
-        .send({})
+        .query(({
+          sort: {
+            attribute: "id",
+            order: "asc",
+          },
+          pagination: {
+            size: 10,
+          },
+        } as unknown) as PermissionDescriptor)
         .expect(HttpStatus.OK)
         .expect(JSON.stringify(await filter.findAll())));
 
@@ -138,7 +146,7 @@ describe("Messages. Users.", () => {
         it(`${params.title}`, () =>
           request(app.getHttpServer())
             .get(`/users/1/messages`)
-            .query(params.params)
+            .query((params.params as unknown) as PermissionDescriptor)
             .expect(params.responseBody)
             .expect(HttpStatus.BAD_REQUEST));
       });

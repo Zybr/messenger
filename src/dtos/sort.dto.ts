@@ -5,11 +5,11 @@ export default class SortDto {
   /** Field of sorting */
   @IsString()
   @IsNotEmpty()
-  attribute: string;
+  public attribute: string;
 
   /** Sorting direction */
   @IsString()
   @IsOptional()
   @IsIn(["asc", "desc"])
-  order?: string;
+  public order?: string;
 }
