@@ -3,10 +3,11 @@ import { Test } from "@nestjs/testing";
 import { INestApplication, ValidationPipe } from "@nestjs/common";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
-import MessagesModule from "../../src/messages/messages.module";
-import MessagesService from "../../src/messages/services/messages.service";
-import Message from "../../src/messages/entities/message.entity";
-import MessagesFilter from "../../src/messages/services/messages.filter";
+import MessagesModule from "../../src/modules/messages/messages.module";
+import MessagesService from "../../src/modules/messages/services/messages.service";
+import Message from "../../src/modules/messages/entities/message.entity";
+import MessagesServiceFilter from "../../src/modules/messages/services/messages.service-filter";
+import MessageSubscriber from "../../src/modules/messages/events/subscribers/message.subscriber";
 
 describe("Messages. Users.", () => {
   let app: INestApplication;
@@ -16,7 +17,7 @@ describe("Messages. Users.", () => {
     setPagination: () => filter,
     setSort: () => filter,
     findAll: () => Promise.resolve([]),
-  } as unknown) as MessagesFilter;
+  } as unknown) as MessagesServiceFilter;
 
   const messageService = ({
     getFilter: () => filter,
@@ -30,6 +31,8 @@ describe("Messages. Users.", () => {
       .useValue({})
       .overrideProvider(MessagesService)
       .useValue(messageService)
+      .overrideProvider(MessageSubscriber)
+      .useValue({})
       .compile();
 
     app = module.createNestApplication();
@@ -41,7 +44,15 @@ describe("Messages. Users.", () => {
     it("Success", async () =>
       request(app.getHttpServer())
         .get("/users/1/messages")
-        .send({})
+        .query(({
+          sort: {
+            attribute: "id",
+            order: "asc",
+          },
+          pagination: {
+            size: 10,
+          },
+        } as unknown) as PermissionDescriptor)
         .expect(HttpStatus.OK)
         .expect(JSON.stringify(await filter.findAll())));
 
@@ -135,7 +146,7 @@ describe("Messages. Users.", () => {
         it(`${params.title}`, () =>
           request(app.getHttpServer())
             .get(`/users/1/messages`)
-            .query(params.params)
+            .query((params.params as unknown) as PermissionDescriptor)
             .expect(params.responseBody)
             .expect(HttpStatus.BAD_REQUEST));
       });

@@ -9,13 +9,13 @@ import {
   ParseIntPipe,
 } from "@nestjs/common";
 import { ApiOperation } from "@nestjs/swagger";
-import NotFoundApiResponse from "../../../decorators/api/not-found.api-response.decorator";
-import BadRequestApiResponse from "../../../decorators/api/bad-request.api-response.decorator";
+import NotFoundApiResponse from "../../../../decorators/api/not-found.api-response.decorator";
+import BadRequestApiResponse from "../../../../decorators/api/bad-request.api-response.decorator";
 import MessagesService from "../../services/messages.service";
 import CreateMessageDto from "../../dtos/create-message.dto";
 import UpdateMessageDto from "../../dtos/update-message.dto";
 import Message from "../../entities/message.entity";
-import MessageByIdPipe from "../../../pipes/message-by-id.pipe";
+import MessageByIdPipe from "../../pipes/message-by-id.pipe";
 import MessageIdApiParam from "../../decorators/message-id-api-param.decorator";
 
 @Controller("messages")

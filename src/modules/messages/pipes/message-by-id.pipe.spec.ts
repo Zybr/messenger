@@ -1,7 +1,7 @@
 import { NotFoundException } from "@nestjs/common";
 import MessageByIdPipe from "./message-by-id.pipe";
-import MessagesService from "../messages/services/messages.service";
-import Message from "../messages/entities/message.entity";
+import MessagesService from "../services/messages.service";
+import Message from "../entities/message.entity";
 
 describe("MessageByIdPipe", () => {
   const message = new Message();

@@ -5,8 +5,8 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 import MessagesService from "./messages.service";
 import Message from "../entities/message.entity";
 import MessagesController from "../controllers/messages/messages.controller";
-import Factory from "./messages.mock-factory";
-import MessagesFilter from "./messages.filter";
+import Factory from "../messages.mock-factory";
+import MessagesServiceFilter from "./messages.service-filter";
 
 describe("MessagesService", () => {
   let service: MessagesService;
@@ -18,7 +18,7 @@ describe("MessagesService", () => {
       controllers: [MessagesController],
       providers: [
         MessagesService,
-        MessagesFilter,
+        MessagesServiceFilter,
         {
           provide: repositoryToken,
           useClass: Repository,
@@ -93,7 +93,7 @@ describe("MessagesService", () => {
         controllers: [MessagesController],
         providers: [
           MessagesService,
-          MessagesFilter,
+          MessagesServiceFilter,
           {
             provide: repositoryToken,
             useFactory: () => ({
@@ -146,6 +146,6 @@ describe("MessagesService", () => {
   });
 
   test(".getFilter", () => {
-    expect(service.getFilter()).toBeInstanceOf(MessagesFilter);
+    expect(service.getFilter()).toBeInstanceOf(MessagesServiceFilter);
   });
 });

@@ -5,14 +5,15 @@ import { DeleteResult } from "typeorm/query-builder/result/DeleteResult";
 import CreateMessageDto from "../dtos/create-message.dto";
 import UpdateMessageDto from "../dtos/update-message.dto";
 import Message from "../entities/message.entity";
-import MessagesFilter from "./messages.filter";
+import MessagesServiceFilter from "./messages.service-filter";
 
 /** Messages manager */
 @Injectable()
 export default class MessagesService {
   constructor(
     @InjectRepository(Message) private readonly repository: Repository<Message>,
-    @Inject(MessagesFilter) private readonly filter: MessagesFilter
+    @Inject(MessagesServiceFilter)
+    private readonly filter: MessagesServiceFilter
   ) {}
 
   /** Create message */
@@ -52,7 +53,7 @@ export default class MessagesService {
   }
 
   /** Get extended filter */
-  public getFilter(): MessagesFilter {
+  public getFilter(): MessagesServiceFilter {
     return this.filter;
   }
 }

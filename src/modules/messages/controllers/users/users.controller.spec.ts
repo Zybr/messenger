@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import UsersController from "./users.controller";
 import MessagesService from "../../services/messages.service";
-import MessagesFilter from "../../services/messages.filter";
+import MessagesServiceFilter from "../../services/messages.service-filter";
 import GetMessagesDto from "../../dtos/get-messages.dto";
 
 describe("UsersController", () => {
@@ -11,7 +11,7 @@ describe("UsersController", () => {
     setPagination: () => filter,
     setSort: () => filter,
     findAll: () => Promise.resolve([]),
-  } as unknown) as MessagesFilter;
+  } as unknown) as MessagesServiceFilter;
   const messageService = ({
     getFilter: () => filter,
   } as unknown) as MessagesService;

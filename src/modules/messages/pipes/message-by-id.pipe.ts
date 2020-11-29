@@ -1,6 +1,6 @@
 import { Injectable, PipeTransform, NotFoundException } from "@nestjs/common";
-import Message from "../messages/entities/message.entity";
-import MessagesService from "../messages/services/messages.service";
+import Message from "../entities/message.entity";
+import MessagesService from "../services/messages.service";
 
 /**
  * Define message by ID

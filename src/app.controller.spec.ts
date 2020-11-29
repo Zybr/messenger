@@ -11,7 +11,7 @@ describe("AppController", () => {
     }).compile();
   });
 
-  describe(".getInfo", () => {
+  describe(".getInfo()", () => {
     it("Show short info", () => {
       const appController = app.get<AppController>(AppController);
       expect(appController.getInfo()).toHaveProperty("version");

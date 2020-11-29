@@ -6,7 +6,7 @@ import {
 } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 import moment from "moment";
-import UpdateDateColumn from "../../decorators/properties/update-date-column.decorator";
+import UpdateDateColumn from "../../../decorators/properties/update-date-column.decorator";
 
 @Entity("messages")
 export default class Message {
