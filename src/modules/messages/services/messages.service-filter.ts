@@ -7,7 +7,7 @@ import PaginationDto from "../../../dtos/pagination.dto";
 
 /** Filter of messages list */
 @Injectable()
-export default class MessagesFilter {
+export default class MessagesServiceFilter {
   /** Message recipient */
   private recipient?: number;
 
@@ -21,19 +21,19 @@ export default class MessagesFilter {
     @InjectRepository(Message) private readonly repository: Repository<Message>
   ) {}
 
-  public setRecipient(recipientId: number): MessagesFilter {
+  public setRecipient(recipientId: number): MessagesServiceFilter {
     this.recipient = recipientId;
 
     return this;
   }
 
-  public setSort(sortParams: SortDto): MessagesFilter {
+  public setSort(sortParams: SortDto): MessagesServiceFilter {
     this.sort = sortParams;
 
     return this;
   }
 
-  public setPagination(paginationParams: PaginationDto): MessagesFilter {
+  public setPagination(paginationParams: PaginationDto): MessagesServiceFilter {
     this.pagination = paginationParams;
 
     return this;
@@ -67,7 +67,7 @@ export default class MessagesFilter {
   }
 
   /** Reset all set parameters */
-  private clear(): MessagesFilter {
+  private clear(): MessagesServiceFilter {
     this.sort = null;
     this.pagination = null;
 

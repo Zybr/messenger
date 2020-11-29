@@ -1,11 +1,11 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
-import MessagesFilter from "./messages.filter";
+import MessagesServiceFilter from "./messages.service-filter";
 import MessagesService from "./messages.service";
 import Message from "../entities/message.entity";
 
-describe("MessagesFilter", () => {
-  let service: MessagesFilter;
+describe("MessagesServiceFilter", () => {
+  let service: MessagesServiceFilter;
   let executeSpy;
   const queryBuilder = {
     select: () => queryBuilder,
@@ -20,7 +20,7 @@ describe("MessagesFilter", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         MessagesService,
-        MessagesFilter,
+        MessagesServiceFilter,
         {
           provide: repositoryToken,
           useFactory: () => ({
@@ -30,7 +30,7 @@ describe("MessagesFilter", () => {
       ],
     }).compile();
 
-    service = module.get<MessagesFilter>(MessagesFilter);
+    service = module.get<MessagesServiceFilter>(MessagesServiceFilter);
   });
 
   test("Built", () => {

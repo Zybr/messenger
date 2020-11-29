@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import MessagesController from "./messages.controller";
 import MessagesService from "../../services/messages.service";
-import Factory from "../../services/messages.mock-factory";
+import Factory from "../../messages.mock-factory";
 
 describe("MessagesController", () => {
   let controller: MessagesController;

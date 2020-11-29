@@ -6,7 +6,7 @@ import { HttpStatus } from "@nestjs/common/enums/http-status.enum";
 import MessagesModule from "../../src/modules/messages/messages.module";
 import MessagesService from "../../src/modules/messages/services/messages.service";
 import Message from "../../src/modules/messages/entities/message.entity";
-import MessagesFilter from "../../src/modules/messages/services/messages.filter";
+import MessagesServiceFilter from "../../src/modules/messages/services/messages.service-filter";
 import MessageSubscriber from "../../src/modules/messages/events/subscribers/message.subscriber";
 
 describe("Messages. Users.", () => {
@@ -17,7 +17,7 @@ describe("Messages. Users.", () => {
     setPagination: () => filter,
     setSort: () => filter,
     findAll: () => Promise.resolve([]),
-  } as unknown) as MessagesFilter;
+  } as unknown) as MessagesServiceFilter;
 
   const messageService = ({
     getFilter: () => filter,

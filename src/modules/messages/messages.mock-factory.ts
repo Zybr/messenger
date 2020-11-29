@@ -1,8 +1,8 @@
 // eslint-disable-next-line max-classes-per-file,import/no-extraneous-dependencies
 import * as faker from "faker";
-import Message from "../entities/message.entity";
-import CreateMessageDto from "../dtos/create-message.dto";
-import UpdateMessageDto from "../dtos/update-message.dto";
+import Message from "./entities/message.entity";
+import CreateMessageDto from "./dtos/create-message.dto";
+import UpdateMessageDto from "./dtos/update-message.dto";
 
 export default class MessagesMockFactory {
   public static makeMessage(

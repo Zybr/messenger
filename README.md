@@ -20,9 +20,21 @@ npm run migration:run
 npm run start:dev
 ```
 
-## Documentation
+## API Documentation
 After app start API documentation will be available at http://localhost:3000/api.
 
+## Socket usage
+### Subscribe on incoming user messages
+```html
+<script src="socket.io.js"></script>
+<script>
+ io('http://localhost:3000/messages')
+  .emit('subscribe', { recipient: 1 }, response => console.log('"subscribe" response', response))
+  .on('message.created', (data) => console.log('message.created', data))
+  .on('exception', (data) => console.log('exception', data))
+  .on('disconnect', () => console.log('Disconnected'));
+</script>
+```
 ## Tests
 
 ```bash
