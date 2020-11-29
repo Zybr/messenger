@@ -6,7 +6,7 @@ npm install
 ```
 
 ### Prepare DataBase
-Create MySQL DB `messenger`. See `ormconfig.json` for details.
+Create MySQL DB `messenger`. See `configs/database.json` for details.
 
 Execute migrations.
 ```bash
@@ -21,7 +21,7 @@ npm run start:dev
 ```
 
 ## API Documentation
-After app start API documentation will be available at http://localhost:3000/api.
+After app start API documentation will be available on http://localhost:3000/api
 
 ## Socket usage
 ### Subscribe on incoming user messages

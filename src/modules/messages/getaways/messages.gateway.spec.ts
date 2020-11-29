@@ -23,9 +23,7 @@ describe("MessagesGateway", () => {
     eventEmitter = module.get<EventEmitter2>(EventEmitter2);
   });
 
-  test("Build", () => {
-    expect(gateway).toBeDefined();
-  });
+  test("Build", () => expect(gateway).toBeDefined());
 
   test(".handleSubscribe()", () => {
     expect(gateway.handleSubscribe({ recipient }, socket)).toEqual({

@@ -1,6 +1,7 @@
 import { NestFactory } from "@nestjs/core";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 import { ValidationPipe } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import AppModule from "./app.module";
 
 async function bootstrap() {
@@ -19,6 +20,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   // Run
-  await app.listen(3000);
+  await app.listen(app.get<ConfigService>(ConfigService).get("http.port"));
 }
 bootstrap();
